@@ -17,7 +17,7 @@
 \newcommand\vldbauthors{\authors}
 \newcommand\vldbtitle{\shorttitle} 
 % leave empty if no availability url should be set
-\newcommand\vldbavailabilityurl{https://github.com/vibhash-singh/repr-eng-json_schema_extractor}
+\newcommand\vldbavailabilityurl{https://doi.org/10.5281/zenodo.10702834}
 % whether page numbers should be shown or not, use 'plain' for review versions, 'empty' for camera ready
 \newcommand\vldbpagestyle{plain} 
 
@@ -52,29 +52,27 @@ The source code, data, and/or other artifacts have been made available at \url{\
 %%% VLDB block end %%%
 
 \section{Introduction}
-In this report, we aim to reproduce the results of Frozza et al.'s \cite{frozza2018approach} approach to JSON schema extraction. We will address the following research question 
+In this report, we aim to replicate the results of Frozza et al.'s \cite{frozza2018approach} approach to JSON schema extraction. We will address the following research question 
 
-\textbf{Research Question}: Is the JSON Schema Discovery method's effectiveness in extracting schemas from JSON documents reproducible within the same dataset?
+\textbf{Research Question}: Is the JSON Schema Discovery method effective in extracting schemas from JSON documents replicated within the same dataset?
 
-The original paper \cite{frozza2018approach} introduces JSON Schema Discovery, an approach for extracting schemas from JSON and Extended JSON documents in NoSQL databases. This method enhances data integration and retrieval from schema-less sources, crucial for document-oriented databases. It uniquely enables automatic schema extraction in JSON format, including attributes, data types, and participation constraints. The process involves data summarization and aggregation operations, improving extraction performance \cite{frozza2018approach}. Additionally, this approach is implemented as a free software tool \footnote{https://github.com/feekosta/JSONSchemaDiscovery}, facilitating schema generation, storage, and visualization for MongoDB-stored data collections.
+The original paper introduces JSON Schema Discovery, an approach for extracting schemas from JSON and Extended JSON documents in NoSQL databases. This method enhances data integration and retrieval from schema-less sources, which is crucial for document-oriented databases. It uniquely enables automatic schema extraction in JSON format, including attributes, data types, and participation constraints. The process involves data summarization and aggregation operations, improving extraction performance. Additionally, this approach is implemented as a free software tool \footnote{https://github.com/feekosta/JSONSchemaDiscovery}, facilitating schema generation, storage, and visualization for MongoDB-stored data collections. \cite{frozza2018approach}.
 
-To reproduce the study's findings, we will employ the same tool as mentioned in the original research. This approach ensures consistency in methodology and aids in accurately assessing the reproducibility of the results.
+To replicate the study's findings, we will employ the same tool mentioned in the original research. This approach ensures consistency in methodology and aids in accurately assessing the replicability of the results.
 
-\section{Experimental Evaluation}
+\section{Experimental Evaluation} \label{exp-eval}
 
-In the experiment, the author utilized tracked data from tweets, check-ins, and venues sourced from Foursquare \cite{ccelikten2016modeling}. The original study was conducted on an Amazon EC2 t2.micro instance equipped with an Intel(R) Xeon(R) E5-2676 v3 processor (clocked at 2.40 GHz) and 1GB of RAM \cite{frozza2018approach}. For our reproduction of the experiment, we will be using a machine powered by an Intel Core i7-7700HQ CPU (2.80GHz) with 16 GB of RAM. 
+In this report, we endeavor to replicate the results of two distinct experiments. In the first experiment, the author utilized tracked data from tweets, check-ins, and venues sourced from Foursquare \cite{ccelikten2016modeling}. The original study was conducted on an Amazon EC2 t2.micro instance equipped with an Intel(R) Xeon(R) E5-2676 v3 processor (clocked at 2.40 GHz) and 1GB of RAM. For the second experiment, the author assessed their methodology using the same DBPedia datasets that informed the research conducted by Wang et al \cite{wang2015schema}. This evaluation was executed on an ASUS K45VM notebook (Intel\textsuperscript{\textregistered} Core\textsuperscript{TM} i7 3610QM @ 2.30 GHz and 8GB of RAM). For our replication of both experiments, we will be using a machine powered by an Intel Core i7-7700HQ CPU (2.80GHz) with 16 GB of RAM.
 
-A critical observation made by the author concerns the ordering of raw schema attributes. This was particularly evident in the venues dataset, where the ordering process significantly reduced the number of distinct raw schemata identified—from 257 to 117. This suggests that attribute ordering plays a crucial role in data schema optimization \cite{frozza2018approach}. 
-
-A significant finding in the study is the allocation of processing time. About 99\% of the time is spent on reading documents and generating raw schemas, with only a minimal portion dedicated to actual processing. This highlights the document reading phase as the primary bottleneck in the data processing workflow \cite{frozza2018approach}. Furthermore, the method's efficiency is evident as the increase in the number of JSON documents does not lead to a proportional rise in processing time, indicating its effectiveness in handling larger data sets \cite{frozza2018approach}. The result of the original paper's \cite{frozza2018approach} study is summarized in Table \ref{table:result}.
-
-The criteria for successful confirmation of results include reproducing the experiment with similar data processing and schema extraction efficiency, despite using a different computing setup. Successful reproduction would involve observing a similar reduction in the number of distinct raw schemata due to attribute ordering, as well as confirming that the majority of processing time is consumed in reading documents and generating raw schemas, with actual processing constituting a minimal part. Essentially, reproducing the original study's findings on attribute ordering's impact and processing time allocation, even with varied hardware, would confirm the results.
-
-Given the time elapsed since the original study, challenges in accessing the exact datasets used initially may arise. Modifications, changes, or removal of the datasets are potential issues that could impact the reproduction process. These considerations will be addressed and explored in detail in the future sections of our report.
+In the first experiment, a significant finding in the study is the allocation of processing time. About 99\% of the time is spent on reading documents and generating raw schemas, with only a minimal portion dedicated to actual processing. This highlights the document reading phase as the primary bottleneck in the data processing workflow. Furthermore, the method's efficiency is evident as the increase in the number of JSON documents does not lead to a proportional rise in processing time, indicating its effectiveness in handling larger data sets \cite{frozza2018approach}. The result of the original paper's study is summarized in Table \ref{table:exp1}.
 
 \begin{table}[h]
 \centering
 \caption{RESULTS FOR FOURSQUARE DATASETS \cite{frozza2018approach}} 
+
+N\_JSON-Number of JSON documents, RS - Raw schemas, ROrd - Raw schemas with an ordered structure
+, TB - Time to obtain the raw schemas, TT - Total time. \vspace{5pt}
+
 \scalebox{0.85} {
 \begin{tabular}{|l|c|c|c|c|c|c|}
 \hline
@@ -84,17 +82,65 @@ checkins            & 11 million       & 2           & 2              & 35,27 mi
 tweets              & 17 million       & 23          & 16             & 53,11 min        & 53,44 min   &99.38\%     \\ \hline
 \end{tabular}
 }
-\newline
-\newline
-\newline
-N\_JSON-Number of JSON documents, RS - Raw schemas, ROrd - Raw schemas with an ordered structure
 
-TB - Time to obtain the raw schemas, TT - Total time.
-\label{table:result}
+\label{table:exp1}
 \end{table}
+
+For the second experiment, the author's objective is to evaluate the quality of the schemas generated by his method in comparison to those produced by related works. The comparison with Wang et. al \cite{wang2015schema} is shown in Table \ref{table:exp2}.
+
+\begin{table}
+\centering
+\caption{Comparison with Wang et al. \cite{wang2015schema}}
+
+N\_JSON-Number of JSON documents, RS - Raw schemas, ROrd - Raw schemas with an ordered structure, FS - Final Schemas  \vspace{5pt}
+
+\scalebox{0.85} {
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Datasets}} & \multicolumn{2}{c|}{\textbf{JSON Schema Discovery}} & \textbf{Wang et al.} \cite{wang2015schema}\\
+\hline
+\textbf{Collection} & \textbf{N\_JSON} & \textbf{RS} & \textbf{ROrd} & \textbf{FS} \\
+\hline 
+drugs   &   3662    &   2818    &   2818    &   2818 \\
+\hline
+companies & 24367 & 21312 & 21312 & 21302 \\
+\hline
+movies & 30330 & 25140 & 25140 & 25137 \\
+\hline
+\end{tabular}
+}
+\label{table:exp2}
+\end{table}
+
+The criteria for successful confirmation of results for experiment 1 includes replicating the experiment with similar data processing and schema extraction efficiency, despite using a different computing setup. Successful replication would involve confirming that the majority of processing time (>99\%) is consumed in reading documents and generating raw schemas, with actual processing constituting a minimal part. For Experiment 2, we established a CSV file as our ground truth, corresponding precisely to the results outlined in Table \ref{table:exp2}. Successful validation would be achieved by an exact, row-by-row match between all rows in the CSV and the experimental outcomes.
+
+\section{Experiment Environment}
+To facilitate our experiments, we employed a containerized setup using Docker to simplify the initial configuration. The process began with constructing a Docker image for the JSON Schema Discovery tool, integrating all required libraries. We then imported the necessary datasets into this image to set the stage for our experiments. Additionally, we transferred crucial scripts into the image to execute the experiments. To ensure the smooth operation of the tool, we applied essential patches. Our replication package includes a docker-compose file, streamlining the launch of the required experimental environment.
+
+\section{Experiment Results}
+In this section, we present a summary of our findings from the replication of the experiments described in Section \ref{exp-eval}.
+
+\subsection{First Experiment Results}
+
+For the first experiment, we were unable to locate the exact dataset referenced in the paper. Instead, we utilized the Freebase dataset available in the author's GitHub repository \footnote{https://github.com/feekosta/datasets}. The substitution of a different dataset should not impact the validity of the experimental results, as our primary objective is to verify the claim that the processing time spent on reading the documents and generating the raw schemas constitutes 99\% of the total processing time. This finding should hold for any JSON dataset. The results for Experiment 1 are shown in Table \ref{tab:exp1_result}. The column headers align with the descriptions provided in Table \ref{table:exp1} of this report.
+\input{exp_1}
+
+The findings suggest that for the \textit{companies} and \textit{movies} datasets, the processing time devoted to reading documents and creating raw schemas constituted over 99\%, signifying that the actual processing time is less than 1\%. In contrast, the \textit{drugs} dataset did not follow this pattern, a variance that can likely be ascribed to its notably fewer JSON documents, which implies it may not serve as a reliable metric for evaluating processing efficiency in this context. Furthermore, for \textit{drugs} collection, it is observable that despite a processing time for reading documents and generating raw schemas falling below 99\%, a significant portion of the duration was still allocated to these tasks. This highlights the efficiency of the proposed method.
+
+\subsection{Second Experiment Results}
+In the second experiment, we conducted a row-by-row comparison of our results for each collection against our ground truth CSV. This comparison confirmed that our findings were identical to those reported in the original paper, thereby successfully replicating the experiment. The findings from this experiment are detailed in Table \ref{tab:exp2_result}, with the column headings corresponding directly to the descriptions outlined in Table \ref{table:exp2} of this report. The table features a dedicated column for the author's findings, facilitating a direct comparison between the author's results and ours. From the data presented, we can deduce that our outcomes are in alignment with those reported by the author.
+
+\input{exp_2}
+
+\section{Limitations}
+Although the experiments were replicated successfully, acknowledging the limitations and potential challenges to the reliability of our results remains crucial. The primary limitation of Experiment 1 stems from our use of an alternative dataset due to the unavailability of the original one. Additionally, the computational resources employed in our replication differed from those used in the original study, potentially influencing the observed processing times. For Experiment 2, while we successfully matched the counts of raw schemas and schemas with ordered structure to those reported in the original paper, we faced limitations in verifying the accuracy of the generated schema content against the original files, as no ground truth data were available for this comparison.
+
+\section{Conclusion}
+The report emphasizes the successful replication of experiments aimed at evaluating JSON schema extraction methodologies. It highlights the effective use of a containerized environment to ensure consistent experimental setups, and the replication of results despite differences in datasets and computational resources. The report acknowledges limitations, such as dataset variability and verification challenges, yet confirms the robustness of the schema extraction approach. Overall, the study reinforces the viability of the examined methodologies for schema extraction from JSON documents.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{refrences}
+
 
 \end{document}
 \endinput
